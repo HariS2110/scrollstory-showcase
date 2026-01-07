@@ -15,7 +15,8 @@ const ThankYouSection = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="font-sans text-sm tracking-[0.3em] uppercase text-muted-foreground mb-8"
+          style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }}
+          className="font-sans tracking-[0.3em] uppercase text-muted-foreground mb-8"
         >
           With gratitude
         </motion.p>
@@ -25,7 +26,8 @@ const ThankYouSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="font-serif text-4xl md:text-5xl lg:text-6xl text-charcoal mb-8 italic"
+          style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+          className="font-serif text-charcoal mb-8 italic"
         >
           Thank You
         </motion.h2>
@@ -43,6 +45,7 @@ const ThankYouSection = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
           viewport={{ once: true }}
+          style={{ fontSize: 'clamp(0.875rem, 1.2vw, 1rem)' }}
           className="font-sans text-muted-foreground leading-relaxed"
         >
           For taking this journey with me.
@@ -57,7 +60,8 @@ const ThankYouSection = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}
           viewport={{ once: true }}
-          className="font-sans text-xs tracking-widest uppercase text-muted-foreground/60 mt-16"
+          style={{ fontSize: 'clamp(0.5rem, 0.8vw, 0.75rem)' }}
+          className="font-sans tracking-widest uppercase text-muted-foreground/60 mt-16"
         >
           Made in Hyderabad
         </motion.p>

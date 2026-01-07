@@ -53,15 +53,15 @@ const HorizontalGallery = () => {
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 max-w-6xl w-full">
               {/* Essay/Writeup Side */}
               <div className="flex-1 max-w-xl">
-                <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-charcoal mb-6">
+                <h3 style={{ fontSize: 'clamp(1.25rem, 2.5vw, 2rem)' }} className="font-serif text-charcoal mb-6">
                   About This Project
                 </h3>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base mb-4">
+                <p style={{ fontSize: 'clamp(0.75rem, 1.2vw, 1rem)' }} className="text-muted-foreground leading-relaxed mb-4">
                   This piece explores the weight of expectations placed upon women, 
                   the quiet violence of being worshipped while being diminished, 
                   and the reclamation of divine feminine power.
                 </p>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                <p style={{ fontSize: 'clamp(0.75rem, 1.2vw, 1rem)' }} className="text-muted-foreground leading-relaxed">
                   Through the lens of Hindu mythology, it speaks to the universal 
                   experience of women who are praised for their sacrifice while being 
                   denied their agency.
@@ -77,8 +77,8 @@ const HorizontalGallery = () => {
                 >
                   <div className="flex flex-col items-center justify-center h-64 md:h-80 text-charcoal">
                     <Image className="w-16 h-16 mb-4 opacity-40" />
-                    <p className="font-serif text-2xl mb-2">Poster</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p style={{ fontSize: 'clamp(1.25rem, 2vw, 1.5rem)' }} className="font-serif mb-2">Poster</p>
+                    <p style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }} className="text-muted-foreground">
                       Coming soon
                     </p>
                   </div>
@@ -97,8 +97,8 @@ const HorizontalGallery = () => {
               >
                 <div className="flex flex-col items-center justify-center h-72 md:h-96 text-charcoal">
                   <Image className="w-20 h-20 mb-6 opacity-30" />
-                  <p className="font-serif text-3xl mb-2">Poster</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p style={{ fontSize: 'clamp(1.5rem, 2.5vw, 1.875rem)' }} className="font-serif mb-2">Poster</p>
+                  <p style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }} className="text-muted-foreground">
                     Coming soon
                   </p>
                 </div>
@@ -111,8 +111,8 @@ const HorizontalGallery = () => {
               >
                 <div className="flex flex-col items-center justify-center h-72 md:h-96 text-charcoal">
                   <QrCode className="w-32 h-32 mb-6 opacity-30" />
-                  <p className="font-serif text-3xl mb-2">Scan Me</p>
-                  <p className="text-sm text-muted-foreground text-center px-4">
+                  <p style={{ fontSize: 'clamp(1.5rem, 2.5vw, 1.875rem)' }} className="font-serif mb-2">Scan Me</p>
+                  <p style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }} className="text-muted-foreground text-center px-4">
                     QR code to explore more
                   </p>
                 </div>
