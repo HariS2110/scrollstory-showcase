@@ -27,7 +27,8 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="font-serif text-3xl md:text-4xl text-foreground tracking-wide italic"
+          style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}
+          className="font-serif text-foreground tracking-wide italic"
         >
           Smrithi Barla
         </motion.h1>
@@ -36,7 +37,8 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.1 }}
-          className="mt-3 text-sm font-sans tracking-[0.3em] uppercase text-muted-foreground"
+          style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }}
+          className="mt-3 font-sans tracking-[0.3em] uppercase text-muted-foreground"
         >
           Made in Hyderabad
         </motion.p>
@@ -48,7 +50,7 @@ const HeroSection = () => {
         transition={{ duration: 1, delay: 1.8 }}
         className="absolute bottom-12 flex flex-col items-center text-muted-foreground"
       >
-        <span className="text-sm font-sans tracking-widest uppercase mb-3">
+        <span style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }} className="font-sans tracking-widest uppercase mb-3">
           Scroll to explore
         </span>
         <motion.div
