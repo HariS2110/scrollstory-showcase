@@ -3,8 +3,10 @@ import introVideo from "@/assets/intro.mov";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-background px-6 relative">
-      <div className="flex flex-col items-center">
+    <section className="min-h-screen flex flex-col items-center bg-background px-6">
+      
+      {/* Hero content: video + name */}
+      <div className="flex-1 flex flex-col items-center justify-center">
         {/* Intro video */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -44,13 +46,17 @@ const HeroSection = () => {
         </motion.p>
       </div>
 
+      {/* Scroll indicator (natural flow, no absolute) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.8 }}
-        className="absolute bottom-12 flex flex-col items-center text-muted-foreground"
+        className="pb-12 flex flex-col items-center text-muted-foreground"
       >
-        <span style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }} className="font-sans tracking-widest uppercase mb-3">
+        <span
+          style={{ fontSize: 'clamp(0.625rem, 1vw, 0.875rem)' }}
+          className="font-sans tracking-widest uppercase mb-3"
+        >
           Scroll to explore
         </span>
         <motion.div
