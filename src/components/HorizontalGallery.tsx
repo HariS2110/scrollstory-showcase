@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Play, Image } from "lucide-react";
+import { Play, Image, QrCode } from "lucide-react";
 
 const HorizontalGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ const HorizontalGallery = () => {
   return (
     <section
       ref={containerRef}
-      className="h-[300vh] bg-background relative"
+      className="h-[400vh] bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div
@@ -84,6 +84,39 @@ const HorizontalGallery = () => {
                   </div>
                 </motion.div>
               </div>
+            </div>
+          </div>
+
+          {/* Poster + QR Code Panel */}
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 max-w-5xl w-full">
+              {/* Poster */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="bg-ivory border border-border rounded-xl p-8 shadow-lg w-full max-w-sm"
+              >
+                <div className="flex flex-col items-center justify-center h-72 md:h-96 text-charcoal">
+                  <Image className="w-20 h-20 mb-6 opacity-30" />
+                  <p className="font-serif text-3xl mb-2">Poster</p>
+                  <p className="text-sm text-muted-foreground">
+                    Coming soon
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* QR Code */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="bg-ivory border border-border rounded-xl p-8 shadow-lg w-full max-w-sm"
+              >
+                <div className="flex flex-col items-center justify-center h-72 md:h-96 text-charcoal">
+                  <QrCode className="w-32 h-32 mb-6 opacity-30" />
+                  <p className="font-serif text-3xl mb-2">Scan Me</p>
+                  <p className="text-sm text-muted-foreground text-center px-4">
+                    QR code to explore more
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </div>
 
