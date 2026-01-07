@@ -3,27 +3,49 @@ import logo from "@/assets/logo.png";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-background px-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="flex flex-col items-center"
-      >
-        <motion.img
-          src={logo}
-          alt="Smrithi Barla Logo"
-          className="w-64 md:w-80 lg:w-96 mb-8"
+    <section className="min-h-screen flex flex-col items-center justify-center bg-background px-6 relative">
+      <div className="flex flex-col items-center">
+        {/* Logo with dark background for visibility */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-        />
-      </motion.div>
+          className="mb-8"
+        >
+          <img
+            src={logo}
+            alt="Smrithi Barla Logo"
+            className="w-64 md:w-80 lg:w-96"
+            style={{
+              filter: "contrast(1.5) brightness(0.8)",
+            }}
+          />
+        </motion.div>
+
+        {/* Name text */}
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="font-serif text-3xl md:text-4xl text-foreground tracking-wide italic"
+        >
+          Smrithi Barla
+        </motion.h1>
+        
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.1 }}
+          className="mt-3 text-sm font-sans tracking-[0.3em] uppercase text-muted-foreground"
+        >
+          Made in Hyderabad
+        </motion.p>
+      </div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        transition={{ duration: 1, delay: 1.8 }}
         className="absolute bottom-12 flex flex-col items-center text-muted-foreground"
       >
         <span className="text-sm font-sans tracking-widest uppercase mb-3">
@@ -32,7 +54,7 @@ const HeroSection = () => {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-muted-foreground/50"
+          className="w-px h-8 bg-foreground/40"
         />
       </motion.div>
     </section>
