@@ -1,24 +1,24 @@
 import { motion } from "framer-motion";
-import logo from "@/assets/logo.png";
+import introVideo from "@/assets/intro.mov";
 
 const HeroSection = () => {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center bg-background px-6 relative">
       <div className="flex flex-col items-center">
-        {/* Logo with dark background for visibility */}
+        {/* Intro video */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
           className="mb-8"
         >
-          <img
-            src={logo}
-            alt="Smrithi Barla Logo"
+          <video
+            src={introVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
             className="w-64 md:w-80 lg:w-96"
-            style={{
-              filter: "contrast(1.5) brightness(0.8)",
-            }}
           />
         </motion.div>
 
