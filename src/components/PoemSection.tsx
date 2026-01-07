@@ -34,7 +34,7 @@ const PoemSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ["start center", "end center"],
   });
 
   return (
@@ -42,7 +42,7 @@ const PoemSection = () => {
       ref={containerRef}
       className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12"
     >
-      <div className="max-w-2xl mx-auto sticky top-1/4">
+      <div className="max-w-2xl mx-auto sticky top-24">
         <div className="space-y-4">
           {poemLines.map((line, index) => {
             const start = index / (poemLines.length + 2);
