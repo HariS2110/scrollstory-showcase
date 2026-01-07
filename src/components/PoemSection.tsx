@@ -1,22 +1,33 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-// Placeholder poem - your friend can replace this
 const poemLines = [
-  "In the quiet hum of Hyderabad streets,",
-  "where the old mingles with the new,",
-  "stories weave through chai-stained mornings",
-  "and sunsets painted in monsoon hue.",
+  "Mother, they called me the Lakshmi of this house,",
+  "placed devotion on my head like a command.",
   "",
-  "We carry pieces of the places we love,",
-  "stitched into the fabric of who we are—",
-  "a language of belonging",
-  "written beneath each passing star.",
+  "They bowed to me, and then they took my wings.",
   "",
-  "This is a letter to the city,",
-  "to the hands that shaped these dreams,",
-  "to every road that led me here,",
-  "and every thread that holds the seams.",
+  "They named the cage culture, my silence virtue.",
+  "They watched me grow smaller, breath by breath,",
+  "and called it respect.",
+  "",
+  "When I did not vanish, Mother,",
+  "they whispered your other name, Mahakali,",
+  "as if my voice were a warning,",
+  "as if staying alive were a crime.",
+  "",
+  "They fear women who endure.",
+  "",
+  "But you, Mother, you were never meant to be gentle.",
+  "You were Mahishasura Mardini,",
+  "the end of what believed it could own you.",
+  "",
+  "I do not come to you for destruction.",
+  "I come for breath. For space.",
+  "For a life that lets me remain.",
+  "",
+  "I am your child, Mother.",
+  "Not their sacrifice.",
 ];
 
 const PoemSection = () => {
