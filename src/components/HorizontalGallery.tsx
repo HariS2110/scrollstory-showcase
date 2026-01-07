@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { QrCode, Image } from "lucide-react";
+import { Play, Image } from "lucide-react";
 
 const HorizontalGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,18 +25,33 @@ const HorizontalGallery = () => {
   return (
     <section
       ref={containerRef}
-      className="h-[200vh] bg-ivory relative"
+      className="h-[300vh] bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div
           ref={scrollRef}
           style={{ x }}
-          className="flex gap-0 pl-0"
+          className="flex gap-0"
         >
-          {/* Text + Poster Card (Side by Side) */}
+          {/* Video Panel */}
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6">
+            <div className="w-full max-w-4xl aspect-video bg-ivory rounded-lg overflow-hidden relative group cursor-pointer shadow-lg">
+              <div className="absolute inset-0 flex items-center justify-center bg-charcoal/5">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-20 h-20 rounded-full bg-charcoal/10 flex items-center justify-center group-hover:bg-charcoal/20 transition-colors"
+                >
+                  <Play className="w-8 h-8 text-charcoal ml-1" />
+                </motion.div>
+              </div>
+            </div>
+          </div>
+
+          {/* Essay + Poster Panel (Side by Side) */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 max-w-6xl w-full">
-              {/* Text/Writeup Side */}
+              {/* Essay/Writeup Side */}
               <div className="flex-1 max-w-xl">
                 <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-charcoal mb-6">
                   About This Project
@@ -58,7 +73,7 @@ const HorizontalGallery = () => {
                 <motion.div
                   whileHover={{ scale: 1.02, rotate: -2 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-background border border-border rounded-lg p-8 shadow-xl transform rotate-3"
+                  className="bg-ivory border border-border rounded-lg p-8 shadow-xl transform rotate-3"
                 >
                   <div className="flex flex-col items-center justify-center h-64 md:h-80 text-charcoal">
                     <Image className="w-16 h-16 mb-4 opacity-40" />
@@ -72,8 +87,8 @@ const HorizontalGallery = () => {
             </div>
           </div>
 
-          {/* Spacer for scroll end */}
-          <div className="w-32 flex-shrink-0" />
+          {/* Spacer for smooth scroll end */}
+          <div className="w-16 flex-shrink-0" />
         </motion.div>
       </div>
     </section>
