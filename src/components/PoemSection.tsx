@@ -82,7 +82,7 @@ const PoemLine = ({ line, scrollYProgress, start, end }: PoemLineProps) => {
   return (
     <motion.p
       style={{ opacity, y }}
-      className="font-serif text-xl md:text-2xl lg:text-3xl text-charcoal leading-relaxed italic"
+      className="font-serif text-base md:text-lg lg:text-xl text-charcoal leading-relaxed italic"
     >
       {line}
     </motion.p>
