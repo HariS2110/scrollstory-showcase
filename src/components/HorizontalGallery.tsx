@@ -25,77 +25,59 @@ const HorizontalGallery = () => {
   return (
     <section
       ref={containerRef}
-      className="h-[300vh] bg-ivory relative"
+      className="h-[200vh] bg-ivory relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div
           ref={scrollRef}
           style={{ x }}
-          className="flex gap-8 pl-8 md:pl-16"
+          className="flex gap-0 pl-0"
         >
-          {/* Video Card */}
-          <GalleryCard className="bg-charcoal">
-            <div className="flex flex-col items-center justify-center h-full text-cream">
-              <div className="w-16 h-16 rounded-full border-2 border-cream/30 flex items-center justify-center mb-4">
-                <Play className="w-6 h-6 ml-1" />
+          {/* Text + Poster Card (Side by Side) */}
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 max-w-6xl w-full">
+              {/* Text/Writeup Side */}
+              <div className="flex-1 max-w-xl">
+                <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-charcoal mb-6">
+                  About This Project
+                </h3>
+                <p className="text-muted-foreground leading-relaxed text-sm md:text-base mb-4">
+                  This piece explores the weight of expectations placed upon women, 
+                  the quiet violence of being worshipped while being diminished, 
+                  and the reclamation of divine feminine power.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                  Through the lens of Hindu mythology, it speaks to the universal 
+                  experience of women who are praised for their sacrifice while being 
+                  denied their agency.
+                </p>
               </div>
-              <p className="font-sans text-sm tracking-wide opacity-70">
-                The Film
-              </p>
+              
+              {/* Poster Side */}
+              <div className="flex-1 max-w-md">
+                <motion.div
+                  whileHover={{ scale: 1.02, rotate: -2 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-background border border-border rounded-lg p-8 shadow-xl transform rotate-3"
+                >
+                  <div className="flex flex-col items-center justify-center h-64 md:h-80 text-charcoal">
+                    <Image className="w-16 h-16 mb-4 opacity-40" />
+                    <p className="font-serif text-2xl mb-2">Poster</p>
+                    <p className="text-sm text-muted-foreground">
+                      Coming soon
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             </div>
-          </GalleryCard>
-
-          {/* Poster Card */}
-          <GalleryCard className="bg-background border border-border">
-            <div className="flex flex-col items-center justify-center h-full text-charcoal">
-              <Image className="w-12 h-12 mb-4 opacity-40" />
-              <p className="font-serif text-2xl mb-2">Poster</p>
-              <p className="font-sans text-sm text-muted-foreground">
-                Coming soon
-              </p>
-            </div>
-          </GalleryCard>
-
-          {/* QR Code Card */}
-          <GalleryCard className="bg-background border border-border">
-            <div className="flex flex-col items-center justify-center h-full text-charcoal">
-              <QrCode className="w-24 h-24 mb-4 opacity-30" />
-              <p className="font-serif text-2xl mb-2">Scan Me</p>
-              <p className="font-sans text-sm text-muted-foreground text-center px-8">
-                QR code to explore more
-              </p>
-            </div>
-          </GalleryCard>
+          </div>
 
           {/* Spacer for scroll end */}
-          <div className="w-16 md:w-32 flex-shrink-0" />
+          <div className="w-32 flex-shrink-0" />
         </motion.div>
       </div>
     </section>
   );
 };
-
-interface GalleryCardProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-const GalleryCard = ({ children, className = "" }: GalleryCardProps) => {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.3 }}
-      className={`w-[80vw] md:w-[60vw] lg:w-[50vw] h-[70vh] rounded-2xl flex-shrink-0 overflow-hidden shadow-xl ${className}`}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-const Play = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M8 5v14l11-7z" />
-  </svg>
-);
 
 export default HorizontalGallery;
