@@ -43,7 +43,7 @@ const PoemSection = () => {
       className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12"
     >
       <div className="max-w-2xl mx-auto sticky top-24">
-        <div className="space-y-4">
+        <div>
           {poemLines.map((line, index) => {
             const start = index / (poemLines.length + 2);
             const end = (index + 1) / (poemLines.length + 2);
