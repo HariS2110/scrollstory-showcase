@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import kaliImage from "@/assets/kali.jpg";
+import bloodSpillImage from "@/assets/blood-spill.jpg";
 
 const poemLines = [
   "Mother, they called me the Lakshmi of this house,",
@@ -37,12 +39,48 @@ const PoemSection = () => {
     offset: ["start center", "end center"],
   });
 
+  // Background images fade in as user scrolls deeper into poem
+  const kaliOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.15, 0.35, 0.5]);
+  const bloodOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8], [0, 0.2, 0.4, 0.55]);
+
   return (
     <section
       ref={containerRef}
-      className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12"
+      className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
     >
-      <div className="max-w-2xl mx-auto sticky top-24">
+      {/* Blood stain background layer */}
+      <motion.div
+        style={{ opacity: bloodOpacity }}
+        className="fixed inset-0 pointer-events-none z-0"
+      >
+        <img
+          src={bloodSpillImage}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ mixBlendMode: 'multiply' }}
+        />
+      </motion.div>
+
+      {/* Kali image background layer */}
+      <motion.div
+        style={{ opacity: kaliOpacity }}
+        className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center"
+      >
+        <img
+          src={kaliImage}
+          alt=""
+          className="max-w-[80%] max-h-[90vh] object-contain"
+          style={{ mixBlendMode: 'multiply' }}
+        />
+      </motion.div>
+
+      {/* Semi-transparent overlay to ensure text readability */}
+      <motion.div
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.3, 0.4]) }}
+        className="fixed inset-0 pointer-events-none z-[1] bg-ivory/50"
+      />
+
+      <div className="max-w-2xl mx-auto sticky top-24 relative z-10">
         <div>
           {poemLines.map((line, index) => {
             const start = index / (poemLines.length + 2);
