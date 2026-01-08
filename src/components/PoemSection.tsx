@@ -48,10 +48,10 @@ const PoemSection = () => {
       ref={containerRef}
       className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
     >
-      {/* Blood stain background layer */}
+      {/* Blood stain background layer - contained within section */}
       <motion.div
         style={{ opacity: bloodOpacity }}
-        className="fixed inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-0"
       >
         <img
           src={bloodSpillImage}
@@ -61,24 +61,18 @@ const PoemSection = () => {
         />
       </motion.div>
 
-      {/* Kali image background layer */}
+      {/* Kali image background layer - contained within section */}
       <motion.div
         style={{ opacity: kaliOpacity }}
-        className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center"
+        className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center"
       >
         <img
           src={kaliImage}
           alt=""
-          className="max-w-[80%] max-h-[90vh] object-contain"
+          className="max-w-[80%] max-h-[80%] object-contain"
           style={{ mixBlendMode: 'multiply' }}
         />
       </motion.div>
-
-      {/* Semi-transparent overlay to ensure text readability */}
-      <motion.div
-        style={{ opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.3, 0.4]) }}
-        className="fixed inset-0 pointer-events-none z-[1] bg-ivory/50"
-      />
 
       <div className="max-w-2xl mx-auto sticky top-24 relative z-10">
         <div>
