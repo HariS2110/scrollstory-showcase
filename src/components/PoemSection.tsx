@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import kaliImage from "@/assets/kali.jpg";
 import bloodSpillImage from "@/assets/blood-spill.jpg";
 
@@ -32,104 +31,71 @@ const poemLines = [
   "Not their sacrifice.",
 ];
 
-// 🔹 Controls how much of the scroll is used to reveal the poem
-const REVEAL_END = 0.65;
-
 const PoemSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"],
-  });
-
-  // Background images
-  const bloodOpacity = useTransform(
-    scrollYProgress,
-    [0.2, 0.5, 0.8],
-    [0, 0.25, 0.5]
-  );
-
-  const kaliOpacity = useTransform(
-    scrollYProgress,
-    [0.4, 0.7, 1],
-    [0, 0.2, 0.45]
-  );
+  // Count non-empty lines for progress calculation
+  const totalLines = poemLines.filter((l) => l !== "").length;
+  let visibleCount = 0;
 
   return (
-    <section
-      ref={containerRef}
-      className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
-    >
-      {/* Blood stains */}
+    <section className="bg-ivory py-24 md:py-32 px-6 md:px-12 relative overflow-hidden">
+      {/* Blood stains - fades in with intersection */}
       <motion.div
-        style={{ opacity: bloodOpacity }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.5 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        viewport={{ once: true, amount: 0.3 }}
         className="absolute inset-0 pointer-events-none z-0"
       >
         <img
           src={bloodSpillImage}
-          alt="Blood stains"
+          alt=""
           className="w-full h-full object-cover"
           style={{ mixBlendMode: "multiply", objectPosition: "center top" }}
         />
       </motion.div>
 
-      {/* Kali image */}
+      {/* Kali image - fades in later */}
       <motion.div
-        style={{ opacity: kaliOpacity }}
-        className="absolute inset-0 pointer-events-none z-5 flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.45 }}
+        transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
+        viewport={{ once: true, amount: 0.5 }}
+        className="absolute inset-0 pointer-events-none z-[1] flex items-center justify-center"
       >
         <img
           src={kaliImage}
-          alt="Kali"
+          alt=""
           className="max-w-[80%] max-h-[70%] object-contain"
           style={{ mixBlendMode: "multiply" }}
         />
       </motion.div>
 
       {/* Poem content */}
-      <div className="max-w-2xl mx-auto sticky top-24 relative z-10">
-        <div>
-          {poemLines.map((line, index) => {
-            const start = (index / poemLines.length) * REVEAL_END;
-            const end = ((index + 1) / poemLines.length) * REVEAL_END;
+      <div className="max-w-2xl mx-auto relative z-10">
+        {poemLines.map((line, index) => {
+          if (line === "") {
+            return <div key={index} className="h-6 md:h-8" />;
+          }
 
-            return (
-              <PoemLine
-                key={index}
-                line={line}
-                scrollYProgress={scrollYProgress}
-                start={start}
-                end={end}
-              />
-            );
-          })}
-        </div>
+          visibleCount++;
+          const delay = visibleCount * 0.08;
+
+          return (
+            <motion.p
+              key={index}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.8 }}
+              style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.25rem)" }}
+              className="font-serif text-charcoal leading-relaxed italic mb-1"
+            >
+              {line}
+            </motion.p>
+          );
+        })}
       </div>
     </section>
-  );
-};
-
-interface PoemLineProps {
-  line: string;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
-  start: number;
-  end: number;
-}
-
-const PoemLine = ({ line, scrollYProgress, start, end }: PoemLineProps) => {
-  const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
-  const y = useTransform(scrollYProgress, [start, end], [20, 0]);
-
-  if (line === "") return <div className="h-8" />;
-
-  return (
-    <motion.p
-      style={{ opacity, y, fontSize: "clamp(0.875rem, 1.5vw, 1.25rem)" }}
-      className="font-serif text-charcoal leading-relaxed italic"
-    >
-      {line}
-    </motion.p>
   );
 };
 

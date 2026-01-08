@@ -1,8 +1,7 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Play, Image, QrCode } from "lucide-react";
+import { Play, QrCode } from "lucide-react";
 import posterImage from "@/assets/poster.jpg";
-
 
 const HorizontalGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,22 +15,37 @@ const HorizontalGallery = () => {
     offset: ["start start", "end end"],
   });
 
-  useEffect(() => {
+  // Calculate scroll range based on content width (zoom-resilient)
+  const updateScrollRange = useCallback(() => {
     if (scrollRef.current) {
       const scrollWidth = scrollRef.current.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      setScrollRange(scrollWidth - viewportWidth);
+      const viewportWidth = scrollRef.current.parentElement?.clientWidth || window.innerWidth;
+      setScrollRange(Math.max(0, scrollWidth - viewportWidth));
     }
   }, []);
 
   useEffect(() => {
+    updateScrollRange();
+    window.addEventListener("resize", updateScrollRange);
+    return () => window.removeEventListener("resize", updateScrollRange);
+  }, [updateScrollRange]);
+
+  useEffect(() => {
     document.body.style.overflow = essayOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [essayOpen]);
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
+  // Calculate container height based on content panels (3 panels = 3x viewport)
+  const panelCount = 3;
+
   return (
-    <section ref={containerRef} className="h-[400vh] bg-background relative">
+    <section
+      ref={containerRef}
+      style={{ height: `${panelCount * 100}vh` }}
+      className="bg-background relative"
+    >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0">
 
@@ -53,7 +67,6 @@ const HorizontalGallery = () => {
           {/* Essay Panel */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
             <div className="max-w-3xl w-full">
-
               <h3
                 style={{ fontSize: "clamp(1.25rem, 2.5vw, 2rem)" }}
                 className="font-serif text-charcoal mb-6"
@@ -73,7 +86,7 @@ const HorizontalGallery = () => {
                 </p>
 
                 <p>
-                  The film insists that a ‘female gaze’ is not inherently liberatory.
+                  The film insists that a 'female gaze' is not inherently liberatory.
                   When femininity is shaped to be seen, approved, and controlled,
                   the same hierarchies quietly reassert themselves.
                 </p>
@@ -84,9 +97,9 @@ const HorizontalGallery = () => {
                   style={{ fontSize: "clamp(1.1rem, 1.8vw, 1.4rem)" }}
                   className="font-serif text-charcoal leading-snug"
                 >
-                  “They called me the Lakshmi of this house…
+                  "They called me the Lakshmi of this house…
                   <br />
-                  and then they took my wings.”
+                  and then they took my wings."
                 </p>
               </div>
 
@@ -94,7 +107,7 @@ const HorizontalGallery = () => {
                 onClick={() => setEssayOpen(true)}
                 className="text-sm text-charcoal/70 hover:text-charcoal transition-colors"
               >
-                Read more about the film’s themes →
+                Read more about the film's themes →
               </button>
             </div>
           </div>
@@ -104,16 +117,15 @@ const HorizontalGallery = () => {
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 max-w-5xl w-full">
 
               <motion.div
-  whileHover={{ scale: 1.02 }}
-  className="bg-ivory border border-border rounded-xl shadow-lg w-full max-w-sm overflow-hidden"
->
-  <img
-    src={posterImage}
-    alt="Film poster"
-    className="w-full h-full object-cover"
-  />
-</motion.div>
-
+                whileHover={{ scale: 1.02 }}
+                className="bg-ivory border border-border rounded-xl shadow-lg w-full max-w-sm overflow-hidden"
+              >
+                <img
+                  src={posterImage}
+                  alt="Film poster"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
 
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -137,7 +149,7 @@ const HorizontalGallery = () => {
 
       {/* MODAL */}
       {essayOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
