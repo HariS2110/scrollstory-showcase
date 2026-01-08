@@ -46,7 +46,7 @@ const PoemSection = () => {
   return (
     <section
       ref={containerRef}
-      className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
+      className="min-h-[150vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
     >
       {/* Blood stain background layer - contained within section */}
       <motion.div
@@ -77,8 +77,8 @@ const PoemSection = () => {
       <div className="max-w-2xl mx-auto sticky top-24 relative z-10">
         <div>
           {poemLines.map((line, index) => {
-            const start = index / (poemLines.length + 2);
-            const end = (index + 1) / (poemLines.length + 2);
+            const start = index / poemLines.length;
+            const end = (index + 1.5) / poemLines.length;
             
             return (
               <PoemLine
