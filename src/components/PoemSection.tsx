@@ -32,54 +32,68 @@ const poemLines = [
   "Not their sacrifice.",
 ];
 
+// 🔹 Controls how much of the scroll is used to reveal the poem
+const REVEAL_END = 0.65;
+
 const PoemSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"],
   });
 
-  // Background images fade in as user scrolls deeper into poem
-  const kaliOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.15, 0.35, 0.5]);
-  const bloodOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8], [0, 0.2, 0.4, 0.55]);
+  // Background images
+  const bloodOpacity = useTransform(
+    scrollYProgress,
+    [0.2, 0.5, 0.8],
+    [0, 0.25, 0.5]
+  );
+
+  const kaliOpacity = useTransform(
+    scrollYProgress,
+    [0.4, 0.7, 1],
+    [0, 0.2, 0.45]
+  );
 
   return (
     <section
       ref={containerRef}
-      className="min-h-[150vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
+      className="min-h-[200vh] bg-ivory py-32 px-6 md:px-12 relative overflow-hidden"
     >
-      {/* Blood stain background layer - contained within section */}
+      {/* Blood stains */}
       <motion.div
         style={{ opacity: bloodOpacity }}
         className="absolute inset-0 pointer-events-none z-0"
       >
         <img
           src={bloodSpillImage}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ mixBlendMode: 'multiply' }}
+          alt="Blood stains"
+          className="w-full h-full object-cover"
+          style={{ mixBlendMode: "multiply", objectPosition: "center top" }}
         />
       </motion.div>
 
-      {/* Kali image background layer - contained within section */}
+      {/* Kali image */}
       <motion.div
         style={{ opacity: kaliOpacity }}
-        className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center"
+        className="absolute inset-0 pointer-events-none z-5 flex items-center justify-center"
       >
         <img
           src={kaliImage}
-          alt=""
-          className="max-w-[80%] max-h-[80%] object-contain"
-          style={{ mixBlendMode: 'multiply' }}
+          alt="Kali"
+          className="max-w-[80%] max-h-[70%] object-contain"
+          style={{ mixBlendMode: "multiply" }}
         />
       </motion.div>
 
+      {/* Poem content */}
       <div className="max-w-2xl mx-auto sticky top-24 relative z-10">
         <div>
           {poemLines.map((line, index) => {
-            const start = index / poemLines.length;
-            const end = (index + 1.5) / poemLines.length;
-            
+            const start = (index / poemLines.length) * REVEAL_END;
+            const end = ((index + 1) / poemLines.length) * REVEAL_END;
+
             return (
               <PoemLine
                 key={index}
@@ -107,13 +121,11 @@ const PoemLine = ({ line, scrollYProgress, start, end }: PoemLineProps) => {
   const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
   const y = useTransform(scrollYProgress, [start, end], [20, 0]);
 
-  if (line === "") {
-    return <div className="h-8" />;
-  }
+  if (line === "") return <div className="h-8" />;
 
   return (
     <motion.p
-      style={{ opacity, y, fontSize: 'clamp(0.875rem, 1.5vw, 1.25rem)' }}
+      style={{ opacity, y, fontSize: "clamp(0.875rem, 1.5vw, 1.25rem)" }}
       className="font-serif text-charcoal leading-relaxed italic"
     >
       {line}
