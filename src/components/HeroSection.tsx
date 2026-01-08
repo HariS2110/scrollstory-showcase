@@ -3,7 +3,7 @@ import introVideo from "@/assets/intro.mov";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center bg-background px-6">
+    <section className="min-h-[100svh] flex flex-col items-center bg-background px-6">
       
       {/* Hero content: video + name */}
       <div className="flex-1 flex flex-col items-center justify-center">

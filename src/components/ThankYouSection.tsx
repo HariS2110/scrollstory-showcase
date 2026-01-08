@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const ThankYouSection = () => {
   return (
-    <section className="min-h-screen bg-background flex items-center justify-center px-6 py-24">
+    <section className="min-h-[100svh] bg-background flex items-center justify-center px-6 py-24">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
