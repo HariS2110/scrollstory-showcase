@@ -41,7 +41,7 @@ const PoemSection = () => {
       {/* Blood stains - fades in with intersection */}
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.5 }}
+        whileInView={{ opacity: 0.35 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.3 }}
         className="absolute inset-0 pointer-events-none z-0"
@@ -57,7 +57,7 @@ const PoemSection = () => {
       {/* Kali image - fades in later */}
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.45 }}
+        whileInView={{ opacity: 0.3 }}
         transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
         viewport={{ once: true, amount: 0.5 }}
         className="absolute inset-0 pointer-events-none z-[1] flex items-center justify-center"
