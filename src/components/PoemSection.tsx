@@ -40,35 +40,37 @@ const PoemSection = () => {
     <section className="bg-ivory py-24 md:py-32 px-6 md:px-12 relative overflow-hidden">
       {/* Blood stains - fades in with intersection */}
       <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.35 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        viewport={{ once: true, amount: 0.3 }}
-        className="absolute inset-0 pointer-events-none z-0"
-      >
-        <img
-          src={bloodSpillImage}
-          alt=""
-          className="w-full h-full object-cover"
-          style={{ mixBlendMode: "multiply", objectPosition: "center top" }}
-        />
-      </motion.div>
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 0.35 }}
+  transition={{ duration: 3.2, ease: "easeOut" }}
+  viewport={{ once: true, amount: 0.4 }}
+  className="absolute inset-0 pointer-events-none z-0"
+>
+  <img
+    src={bloodSpillImage}
+    alt=""
+    className="w-full h-full object-cover"
+    style={{ mixBlendMode: "multiply", objectPosition: "center top" }}
+  />
+</motion.div>
+
 
       {/* Kali image - fades in later */}
       <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.3 }}
-        transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
-        viewport={{ once: true, amount: 0.5 }}
-        className="absolute inset-0 pointer-events-none z-[1] flex items-center justify-center"
-      >
-        <img
-          src={kaliImage}
-          alt=""
-          className="max-w-[80%] max-h-[70%] object-contain"
-          style={{ mixBlendMode: "multiply" }}
-        />
-      </motion.div>
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 0.28 }}
+  transition={{ duration: 3.8, ease: "easeOut", delay: 1 }}
+  viewport={{ once: true, amount: 0.45 }}
+  className="absolute inset-0 pointer-events-none z-[1] flex items-center justify-center"
+>
+  <img
+    src={kaliImage}
+    alt=""
+    className="max-w-[80%] max-h-[70%] object-contain"
+    style={{ mixBlendMode: "multiply" }}
+  />
+</motion.div>
+
 
       {/* Poem content */}
       <div className="max-w-2xl mx-auto relative z-10">
