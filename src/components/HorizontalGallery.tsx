@@ -60,22 +60,25 @@ const HorizontalGallery = () => {
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center bg-ivory">
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
-          {/* Blood spill background - spans full scroll width, reveals as you scroll */}
+          {/* Blood spill background - shows full image across all panels */}
           <motion.div 
-            className="absolute inset-0 pointer-events-none z-0"
+            className="absolute pointer-events-none z-0 flex items-center"
             style={{ 
               opacity: hasReachedEnd ? 0.35 : spillOpacity,
               width: '300vw',
-              height: '100%'
+              height: '100%',
+              top: 0,
+              left: 0
             }}
           >
             <img
               src={horizontalSpill}
               alt=""
-              className="w-full h-full"
               style={{ 
                 mixBlendMode: "multiply",
-                objectFit: 'fill'
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain'
               }}
             />
           </motion.div>
