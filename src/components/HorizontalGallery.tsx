@@ -47,7 +47,7 @@ const HorizontalGallery = () => {
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
   
   // Background image opacity - fades in as you scroll, stays fixed once reached end
-  const spillOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.25, 0.5, 0.7]);
+  const spillOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.15, 0.28, 0.35]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
   const panelCount = 3;
@@ -56,13 +56,13 @@ const HorizontalGallery = () => {
     <section
       ref={containerRef}
       style={{ height: `${panelCount * 100}vh` }}
-      className="bg-background relative"
+      className="bg-ivory relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         {/* Blood spill background - fixed to viewport, fades in and stays */}
         <motion.div 
           className="absolute inset-0 pointer-events-none z-0"
-          style={{ opacity: hasReachedEnd ? 0.7 : spillOpacity }}
+          style={{ opacity: hasReachedEnd ? 0.35 : spillOpacity }}
         >
           <img
             src={horizontalSpill}
