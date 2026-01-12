@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Play, QrCode } from "lucide-react";
 import posterImage from "@/assets/poster.jpg";
 import horizontalSpill from "@/assets/horizontalspill.jpg";
@@ -10,10 +10,18 @@ const HorizontalGallery = () => {
 
   const [scrollRange, setScrollRange] = useState(0);
   const [essayOpen, setEssayOpen] = useState(false);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
+  });
+
+  // Track when scroll reaches the end - once true, stays true
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest >= 0.95 && !hasReachedEnd) {
+      setHasReachedEnd(true);
+    }
   });
 
   // Calculate scroll range based on content width (zoom-resilient)
@@ -38,7 +46,7 @@ const HorizontalGallery = () => {
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
   
-  // Blood spill opacity increases as you scroll through the section
+  // Blood spill opacity increases as you scroll, stays at max once reached end
   const spillOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.2, 0.4, 0.5]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
@@ -52,7 +60,7 @@ const HorizontalGallery = () => {
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
-          {/* Panoramic blood background - fades in as you scroll */}
+          {/* Panoramic blood background - fades in as you scroll, stays fixed once complete */}
           <motion.img
             src={horizontalSpill}
             alt=""
@@ -61,7 +69,7 @@ const HorizontalGallery = () => {
               width: '300vw', 
               height: '100%',
               objectFit: 'fill',
-              opacity: spillOpacity
+              opacity: hasReachedEnd ? 0.5 : spillOpacity
             }}
           />
 
