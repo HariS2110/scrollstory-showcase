@@ -2,8 +2,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Play, QrCode } from "lucide-react";
 import posterImage from "@/assets/poster.jpg";
-import bloodHorizontal1 from "@/assets/bloodhorizontal1.jpg";
-import bloodHorizontal2 from "@/assets/bloodhorizontal2.jpg";
+import horizontalSpill from "@/assets/horizontalspill.jpg";
 
 const HorizontalGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -50,18 +49,12 @@ const HorizontalGallery = () => {
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
-          {/* Blood background images - positioned behind panels */}
+          {/* Panoramic blood background - spans all panels */}
           <img
-            src={bloodHorizontal1}
+            src={horizontalSpill}
             alt=""
-            className="absolute top-0 left-0 h-full object-cover opacity-25 pointer-events-none"
-            style={{ width: '150vw' }}
-          />
-          <img
-            src={bloodHorizontal2}
-            alt=""
-            className="absolute top-0 h-full object-cover opacity-25 pointer-events-none"
-            style={{ width: '150vw', left: '150vw' }}
+            className="absolute top-0 left-0 h-full object-cover opacity-30 pointer-events-none"
+            style={{ width: '300vw' }}
           />
 
           {/* Video Panel */}
