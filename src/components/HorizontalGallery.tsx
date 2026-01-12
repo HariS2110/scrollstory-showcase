@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Play, QrCode } from "lucide-react";
 import posterImage from "@/assets/poster.jpg";
+import horizontalSpill from "@/assets/horizontalspilltransparent.jpg";
 
 const HorizontalGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,10 +10,18 @@ const HorizontalGallery = () => {
 
   const [scrollRange, setScrollRange] = useState(0);
   const [essayOpen, setEssayOpen] = useState(false);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
+  });
+
+  // Track when scroll reaches the end - once true, stays true (like poem section)
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest >= 0.95 && !hasReachedEnd) {
+      setHasReachedEnd(true);
+    }
   });
 
   // Calculate scroll range based on content width (zoom-resilient)
@@ -36,6 +45,9 @@ const HorizontalGallery = () => {
   }, [essayOpen]);
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
+  
+  // Background image opacity - fades in as you scroll, stays fixed once reached end
+  const spillOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.25, 0.5, 0.7]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
   const panelCount = 3;
@@ -47,7 +59,20 @@ const HorizontalGallery = () => {
       className="bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
+        {/* Blood spill background - fixed to viewport, fades in and stays */}
+        <motion.div 
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{ opacity: hasReachedEnd ? 0.7 : spillOpacity }}
+        >
+          <img
+            src={horizontalSpill}
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ mixBlendMode: "multiply" }}
+          />
+        </motion.div>
+
+        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative z-10">
           {/* Video Panel */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6">
             <div className="w-full max-w-4xl aspect-video bg-ivory rounded-lg overflow-hidden relative group cursor-pointer shadow-lg">
@@ -65,7 +90,7 @@ const HorizontalGallery = () => {
 
           {/* Essay Panel */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
-            <div className="max-w-3xl w-full">
+            <div className="max-w-3xl w-full bg-ivory/90 backdrop-blur-sm rounded-xl p-8 md:p-12 shadow-lg">
               <h3
                 style={{ fontSize: "clamp(1.25rem, 2.5vw, 2rem)" }}
                 className="font-serif text-charcoal mb-6"
