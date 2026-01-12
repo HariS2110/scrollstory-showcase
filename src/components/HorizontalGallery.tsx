@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Play, QrCode } from "lucide-react";
 import posterImage from "@/assets/poster.jpg";
 
@@ -9,18 +9,10 @@ const HorizontalGallery = () => {
 
   const [scrollRange, setScrollRange] = useState(0);
   const [essayOpen, setEssayOpen] = useState(false);
-  const [hasReachedEnd, setHasReachedEnd] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
-  });
-
-  // Track when scroll reaches the end - once true, stays true
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (latest >= 0.95 && !hasReachedEnd) {
-      setHasReachedEnd(true);
-    }
   });
 
   // Calculate scroll range based on content width (zoom-resilient)
@@ -44,11 +36,6 @@ const HorizontalGallery = () => {
   }, [essayOpen]);
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
-  
-  // Subtle blood wash effects - gentle and artistic
-  const warmthOpacity = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [0, 0.08, 0.18, 0.25]);
-  const vignetteOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [0, 0.15, 0.3, 0.4]);
-  const edgeGlowOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8, 1], [0, 0.1, 0.2, 0.28]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
   const panelCount = 3;
@@ -60,82 +47,9 @@ const HorizontalGallery = () => {
       className="bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {/* Subtle Blood Wash Effects - Fixed to viewport */}
-        <div className="absolute inset-0 pointer-events-none z-[5] overflow-hidden">
-          {/* Gentle crimson wash overlay */}
-          <motion.div 
-            className="absolute inset-0"
-            style={{ 
-              background: 'linear-gradient(135deg, rgba(120, 20, 30, 0.15) 0%, transparent 50%, rgba(100, 15, 25, 0.12) 100%)',
-              opacity: hasReachedEnd ? 0.25 : warmthOpacity
-            }}
-          />
-          
-          {/* Soft vignette - darker edges */}
-          <motion.div 
-            className="absolute inset-0"
-            style={{ 
-              background: 'radial-gradient(ellipse at center, transparent 30%, rgba(60, 10, 15, 0.4) 100%)',
-              opacity: hasReachedEnd ? 0.4 : vignetteOpacity
-            }}
-          />
-
-          {/* Top edge - subtle bleed */}
-          <motion.div 
-            className="absolute top-0 left-0 right-0 h-32"
-            style={{ 
-              background: 'linear-gradient(to bottom, rgba(90, 15, 20, 0.25) 0%, transparent 100%)',
-              opacity: hasReachedEnd ? 0.28 : edgeGlowOpacity
-            }}
-          />
-
-          {/* Bottom edge - pooling warmth */}
-          <motion.div 
-            className="absolute bottom-0 left-0 right-0 h-40"
-            style={{ 
-              background: 'linear-gradient(to top, rgba(80, 12, 18, 0.3) 0%, rgba(90, 15, 22, 0.15) 50%, transparent 100%)',
-              opacity: hasReachedEnd ? 0.35 : edgeGlowOpacity
-            }}
-          />
-
-          {/* Left corner accent */}
-          <motion.div 
-            className="absolute top-0 left-0 w-1/3 h-1/3"
-            style={{ 
-              background: 'radial-gradient(ellipse at top left, rgba(100, 18, 25, 0.2) 0%, transparent 70%)',
-              opacity: hasReachedEnd ? 0.3 : vignetteOpacity
-            }}
-          />
-
-          {/* Right corner accent */}
-          <motion.div 
-            className="absolute bottom-0 right-0 w-2/5 h-2/5"
-            style={{ 
-              background: 'radial-gradient(ellipse at bottom right, rgba(95, 15, 22, 0.22) 0%, transparent 65%)',
-              opacity: hasReachedEnd ? 0.32 : vignetteOpacity
-            }}
-          />
-
-          {/* Center subtle glow */}
-          <motion.div 
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ 
-              opacity: hasReachedEnd ? 0.15 : warmthOpacity
-            }}
-          >
-            <div 
-              className="w-[80%] h-[60%]"
-              style={{
-                background: 'radial-gradient(ellipse at center, rgba(110, 20, 28, 0.08) 0%, transparent 60%)',
-                filter: 'blur(40px)'
-              }}
-            />
-          </motion.div>
-        </div>
-
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
           {/* Video Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6 relative z-10">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6">
             <div className="w-full max-w-4xl aspect-video bg-ivory rounded-lg overflow-hidden relative group cursor-pointer shadow-lg">
               <div className="absolute inset-0 flex items-center justify-center bg-charcoal/5">
                 <motion.div
@@ -150,8 +64,8 @@ const HorizontalGallery = () => {
           </div>
 
           {/* Essay Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16 relative z-10">
-            <div className="max-w-3xl w-full bg-ivory/95 backdrop-blur-sm rounded-xl p-8 md:p-12 shadow-lg">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
+            <div className="max-w-3xl w-full">
               <h3
                 style={{ fontSize: "clamp(1.25rem, 2.5vw, 2rem)" }}
                 className="font-serif text-charcoal mb-6"
@@ -198,7 +112,7 @@ const HorizontalGallery = () => {
           </div>
 
           {/* Poster + QR Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16 relative z-10">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 max-w-5xl w-full">
 
               <motion.div
