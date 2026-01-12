@@ -59,22 +59,29 @@ const HorizontalGallery = () => {
       className="bg-ivory relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {/* Blood spill background - fixed to viewport, fades in and stays */}
-        <motion.div 
-          className="absolute inset-0 pointer-events-none z-0"
-          style={{ opacity: hasReachedEnd ? 0.35 : spillOpacity }}
-        >
-          <img
-            src={horizontalSpill}
-            alt=""
-            className="w-full h-full object-cover"
-            style={{ mixBlendMode: "multiply" }}
-          />
-        </motion.div>
+        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
+          {/* Blood spill background - spans full scroll width, reveals as you scroll */}
+          <motion.div 
+            className="absolute inset-0 pointer-events-none z-0"
+            style={{ 
+              opacity: hasReachedEnd ? 0.35 : spillOpacity,
+              width: '300vw',
+              height: '100%'
+            }}
+          >
+            <img
+              src={horizontalSpill}
+              alt=""
+              className="w-full h-full"
+              style={{ 
+                mixBlendMode: "multiply",
+                objectFit: 'fill'
+              }}
+            />
+          </motion.div>
 
-        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative z-10">
           {/* Video Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6 relative z-10">
             <div className="w-full max-w-4xl aspect-video bg-ivory rounded-lg overflow-hidden relative group cursor-pointer shadow-lg">
               <div className="absolute inset-0 flex items-center justify-center bg-charcoal/5">
                 <motion.div
