@@ -2,7 +2,6 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Play, QrCode } from "lucide-react";
 import posterImage from "@/assets/poster.jpg";
-import horizontalSpill from "@/assets/horizontalspill.jpg";
 
 const HorizontalGallery = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,8 +45,17 @@ const HorizontalGallery = () => {
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
   
-  // Blood spill opacity increases as you scroll, stays at max once reached end
-  const spillOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.2, 0.4, 0.5]);
+  // Blood effects - progressive reveal as you scroll
+  const bloodOverlayOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.15, 0.35, 0.5]);
+  const drip1Height = useTransform(scrollYProgress, [0, 0.25, 0.5], ["0%", "40%", "100%"]);
+  const drip2Height = useTransform(scrollYProgress, [0.1, 0.4, 0.65], ["0%", "60%", "100%"]);
+  const drip3Height = useTransform(scrollYProgress, [0.2, 0.5, 0.8], ["0%", "50%", "100%"]);
+  const drip4Height = useTransform(scrollYProgress, [0.15, 0.45, 0.75], ["0%", "70%", "100%"]);
+  const drip5Height = useTransform(scrollYProgress, [0.25, 0.55, 0.85], ["0%", "45%", "100%"]);
+  const splatter1Opacity = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0, 0.6, 1]);
+  const splatter2Opacity = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0, 0.5, 1]);
+  const splatter3Opacity = useTransform(scrollYProgress, [0.5, 0.7, 0.9], [0, 0.7, 1]);
+  const poolWidth = useTransform(scrollYProgress, [0.4, 0.7, 1], ["0%", "50%", "100%"]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
   const panelCount = 3;
@@ -59,20 +67,124 @@ const HorizontalGallery = () => {
       className="bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
-          {/* Panoramic blood background - fades in as you scroll, stays fixed once complete */}
-          <motion.img
-            src={horizontalSpill}
-            alt=""
-            className="absolute inset-0 pointer-events-none z-0"
+        {/* Blood Effects Layer - Fixed to viewport */}
+        <div className="absolute inset-0 pointer-events-none z-[5] overflow-hidden">
+          {/* Dark red overlay that intensifies */}
+          <motion.div 
+            className="absolute inset-0"
             style={{ 
-              width: '300vw', 
-              height: '100%',
-              objectFit: 'fill',
-              opacity: hasReachedEnd ? 0.5 : spillOpacity
+              background: 'radial-gradient(ellipse at center, transparent 0%, rgba(139, 0, 0, 0.3) 100%)',
+              opacity: hasReachedEnd ? 0.5 : bloodOverlayOpacity
+            }}
+          />
+          
+          {/* Blood drips from top */}
+          <motion.div 
+            className="absolute top-0 left-[8%] w-3 rounded-b-full"
+            style={{ 
+              height: hasReachedEnd ? "100%" : drip1Height,
+              background: 'linear-gradient(to bottom, #8B0000 0%, #B22222 50%, #DC143C 100%)',
+              filter: 'blur(1px)',
+              boxShadow: '0 0 20px rgba(139, 0, 0, 0.5)'
+            }}
+          />
+          <motion.div 
+            className="absolute top-0 left-[22%] w-5 rounded-b-full"
+            style={{ 
+              height: hasReachedEnd ? "100%" : drip2Height,
+              background: 'linear-gradient(to bottom, #8B0000 0%, #A52A2A 60%, #CD5C5C 100%)',
+              filter: 'blur(0.5px)',
+              boxShadow: '0 0 15px rgba(139, 0, 0, 0.4)'
+            }}
+          />
+          <motion.div 
+            className="absolute top-0 left-[45%] w-4 rounded-b-full"
+            style={{ 
+              height: hasReachedEnd ? "100%" : drip3Height,
+              background: 'linear-gradient(to bottom, #800000 0%, #B22222 40%, #DC143C 100%)',
+              filter: 'blur(1px)',
+              boxShadow: '0 0 25px rgba(128, 0, 0, 0.6)'
+            }}
+          />
+          <motion.div 
+            className="absolute top-0 left-[68%] w-6 rounded-b-full"
+            style={{ 
+              height: hasReachedEnd ? "100%" : drip4Height,
+              background: 'linear-gradient(to bottom, #8B0000 0%, #CD5C5C 70%, #F08080 100%)',
+              filter: 'blur(0.5px)',
+              boxShadow: '0 0 20px rgba(139, 0, 0, 0.5)'
+            }}
+          />
+          <motion.div 
+            className="absolute top-0 left-[85%] w-4 rounded-b-full"
+            style={{ 
+              height: hasReachedEnd ? "100%" : drip5Height,
+              background: 'linear-gradient(to bottom, #800000 0%, #B22222 50%, #DC143C 100%)',
+              filter: 'blur(1px)',
+              boxShadow: '0 0 18px rgba(128, 0, 0, 0.5)'
             }}
           />
 
+          {/* Blood splatters */}
+          <motion.div 
+            className="absolute top-[15%] left-[12%] w-32 h-32"
+            style={{ 
+              opacity: hasReachedEnd ? 1 : splatter1Opacity,
+              background: 'radial-gradient(ellipse at center, rgba(139, 0, 0, 0.8) 0%, rgba(139, 0, 0, 0.4) 40%, transparent 70%)',
+              borderRadius: '60% 40% 50% 50%',
+              transform: 'rotate(-15deg)',
+              filter: 'blur(2px)'
+            }}
+          />
+          <motion.div 
+            className="absolute top-[55%] right-[15%] w-40 h-40"
+            style={{ 
+              opacity: hasReachedEnd ? 1 : splatter2Opacity,
+              background: 'radial-gradient(ellipse at center, rgba(178, 34, 34, 0.7) 0%, rgba(139, 0, 0, 0.3) 50%, transparent 75%)',
+              borderRadius: '45% 55% 60% 40%',
+              transform: 'rotate(25deg)',
+              filter: 'blur(3px)'
+            }}
+          />
+          <motion.div 
+            className="absolute bottom-[20%] left-[35%] w-48 h-36"
+            style={{ 
+              opacity: hasReachedEnd ? 1 : splatter3Opacity,
+              background: 'radial-gradient(ellipse at center, rgba(220, 20, 60, 0.6) 0%, rgba(139, 0, 0, 0.25) 45%, transparent 70%)',
+              borderRadius: '50% 50% 45% 55%',
+              transform: 'rotate(-8deg)',
+              filter: 'blur(2px)'
+            }}
+          />
+
+          {/* Blood pool at bottom */}
+          <motion.div 
+            className="absolute bottom-0 left-0 h-24"
+            style={{ 
+              width: hasReachedEnd ? "100%" : poolWidth,
+              background: 'linear-gradient(to top, rgba(139, 0, 0, 0.9) 0%, rgba(139, 0, 0, 0.5) 40%, transparent 100%)',
+              filter: 'blur(3px)'
+            }}
+          />
+          
+          {/* Corner vignettes */}
+          <motion.div 
+            className="absolute top-0 left-0 w-1/3 h-1/3"
+            style={{ 
+              opacity: hasReachedEnd ? 0.6 : bloodOverlayOpacity,
+              background: 'radial-gradient(ellipse at top left, rgba(128, 0, 0, 0.6) 0%, transparent 70%)'
+            }}
+          />
+          <motion.div 
+            className="absolute bottom-0 right-0 w-1/2 h-1/2"
+            style={{ 
+              opacity: hasReachedEnd ? 0.5 : bloodOverlayOpacity,
+              background: 'radial-gradient(ellipse at bottom right, rgba(139, 0, 0, 0.5) 0%, transparent 65%)'
+            }}
+          />
+        </div>
+
+        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
           {/* Video Panel */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6 relative z-10">
             <div className="w-full max-w-4xl aspect-video bg-ivory rounded-lg overflow-hidden relative group cursor-pointer shadow-lg">
@@ -90,7 +202,7 @@ const HorizontalGallery = () => {
 
           {/* Essay Panel */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16 relative z-10">
-            <div className="max-w-3xl w-full bg-ivory/90 backdrop-blur-sm rounded-xl p-8 md:p-12 shadow-lg">
+            <div className="max-w-3xl w-full bg-ivory/95 backdrop-blur-sm rounded-xl p-8 md:p-12 shadow-lg">
               <h3
                 style={{ fontSize: "clamp(1.25rem, 2.5vw, 2rem)" }}
                 className="font-serif text-charcoal mb-6"
