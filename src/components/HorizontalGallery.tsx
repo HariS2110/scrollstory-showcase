@@ -49,21 +49,20 @@ const HorizontalGallery = () => {
       className="bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {/* Fixed blood background images */}
-        <div className="absolute inset-0 pointer-events-none">
+        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
+          {/* Blood background images - positioned behind panels */}
           <img
             src={bloodHorizontal1}
             alt=""
-            className="absolute top-0 left-0 w-1/2 h-full object-cover opacity-25"
+            className="absolute top-0 left-0 h-full object-cover opacity-25 pointer-events-none"
+            style={{ width: '150vw' }}
           />
           <img
             src={bloodHorizontal2}
             alt=""
-            className="absolute top-0 right-0 w-1/2 h-full object-cover opacity-25"
+            className="absolute top-0 h-full object-cover opacity-25 pointer-events-none"
+            style={{ width: '150vw', left: '150vw' }}
           />
-        </div>
-        
-        <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative z-10">
 
           {/* Video Panel */}
           <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6">
