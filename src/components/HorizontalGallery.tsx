@@ -45,17 +45,10 @@ const HorizontalGallery = () => {
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
   
-  // Blood effects - progressive reveal as you scroll
-  const bloodOverlayOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.15, 0.35, 0.5]);
-  const drip1Height = useTransform(scrollYProgress, [0, 0.25, 0.5], ["0%", "40%", "100%"]);
-  const drip2Height = useTransform(scrollYProgress, [0.1, 0.4, 0.65], ["0%", "60%", "100%"]);
-  const drip3Height = useTransform(scrollYProgress, [0.2, 0.5, 0.8], ["0%", "50%", "100%"]);
-  const drip4Height = useTransform(scrollYProgress, [0.15, 0.45, 0.75], ["0%", "70%", "100%"]);
-  const drip5Height = useTransform(scrollYProgress, [0.25, 0.55, 0.85], ["0%", "45%", "100%"]);
-  const splatter1Opacity = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0, 0.6, 1]);
-  const splatter2Opacity = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0, 0.5, 1]);
-  const splatter3Opacity = useTransform(scrollYProgress, [0.5, 0.7, 0.9], [0, 0.7, 1]);
-  const poolWidth = useTransform(scrollYProgress, [0.4, 0.7, 1], ["0%", "50%", "100%"]);
+  // Subtle blood wash effects - gentle and artistic
+  const warmthOpacity = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [0, 0.08, 0.18, 0.25]);
+  const vignetteOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [0, 0.15, 0.3, 0.4]);
+  const edgeGlowOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8, 1], [0, 0.1, 0.2, 0.28]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
   const panelCount = 3;
@@ -67,121 +60,77 @@ const HorizontalGallery = () => {
       className="bg-background relative"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {/* Blood Effects Layer - Fixed to viewport */}
+        {/* Subtle Blood Wash Effects - Fixed to viewport */}
         <div className="absolute inset-0 pointer-events-none z-[5] overflow-hidden">
-          {/* Dark red overlay that intensifies */}
+          {/* Gentle crimson wash overlay */}
           <motion.div 
             className="absolute inset-0"
             style={{ 
-              background: 'radial-gradient(ellipse at center, transparent 0%, rgba(139, 0, 0, 0.3) 100%)',
-              opacity: hasReachedEnd ? 0.5 : bloodOverlayOpacity
+              background: 'linear-gradient(135deg, rgba(120, 20, 30, 0.15) 0%, transparent 50%, rgba(100, 15, 25, 0.12) 100%)',
+              opacity: hasReachedEnd ? 0.25 : warmthOpacity
             }}
           />
           
-          {/* Blood drips from top */}
+          {/* Soft vignette - darker edges */}
           <motion.div 
-            className="absolute top-0 left-[8%] w-3 rounded-b-full"
+            className="absolute inset-0"
             style={{ 
-              height: hasReachedEnd ? "100%" : drip1Height,
-              background: 'linear-gradient(to bottom, #8B0000 0%, #B22222 50%, #DC143C 100%)',
-              filter: 'blur(1px)',
-              boxShadow: '0 0 20px rgba(139, 0, 0, 0.5)'
-            }}
-          />
-          <motion.div 
-            className="absolute top-0 left-[22%] w-5 rounded-b-full"
-            style={{ 
-              height: hasReachedEnd ? "100%" : drip2Height,
-              background: 'linear-gradient(to bottom, #8B0000 0%, #A52A2A 60%, #CD5C5C 100%)',
-              filter: 'blur(0.5px)',
-              boxShadow: '0 0 15px rgba(139, 0, 0, 0.4)'
-            }}
-          />
-          <motion.div 
-            className="absolute top-0 left-[45%] w-4 rounded-b-full"
-            style={{ 
-              height: hasReachedEnd ? "100%" : drip3Height,
-              background: 'linear-gradient(to bottom, #800000 0%, #B22222 40%, #DC143C 100%)',
-              filter: 'blur(1px)',
-              boxShadow: '0 0 25px rgba(128, 0, 0, 0.6)'
-            }}
-          />
-          <motion.div 
-            className="absolute top-0 left-[68%] w-6 rounded-b-full"
-            style={{ 
-              height: hasReachedEnd ? "100%" : drip4Height,
-              background: 'linear-gradient(to bottom, #8B0000 0%, #CD5C5C 70%, #F08080 100%)',
-              filter: 'blur(0.5px)',
-              boxShadow: '0 0 20px rgba(139, 0, 0, 0.5)'
-            }}
-          />
-          <motion.div 
-            className="absolute top-0 left-[85%] w-4 rounded-b-full"
-            style={{ 
-              height: hasReachedEnd ? "100%" : drip5Height,
-              background: 'linear-gradient(to bottom, #800000 0%, #B22222 50%, #DC143C 100%)',
-              filter: 'blur(1px)',
-              boxShadow: '0 0 18px rgba(128, 0, 0, 0.5)'
+              background: 'radial-gradient(ellipse at center, transparent 30%, rgba(60, 10, 15, 0.4) 100%)',
+              opacity: hasReachedEnd ? 0.4 : vignetteOpacity
             }}
           />
 
-          {/* Blood splatters */}
+          {/* Top edge - subtle bleed */}
           <motion.div 
-            className="absolute top-[15%] left-[12%] w-32 h-32"
+            className="absolute top-0 left-0 right-0 h-32"
             style={{ 
-              opacity: hasReachedEnd ? 1 : splatter1Opacity,
-              background: 'radial-gradient(ellipse at center, rgba(139, 0, 0, 0.8) 0%, rgba(139, 0, 0, 0.4) 40%, transparent 70%)',
-              borderRadius: '60% 40% 50% 50%',
-              transform: 'rotate(-15deg)',
-              filter: 'blur(2px)'
-            }}
-          />
-          <motion.div 
-            className="absolute top-[55%] right-[15%] w-40 h-40"
-            style={{ 
-              opacity: hasReachedEnd ? 1 : splatter2Opacity,
-              background: 'radial-gradient(ellipse at center, rgba(178, 34, 34, 0.7) 0%, rgba(139, 0, 0, 0.3) 50%, transparent 75%)',
-              borderRadius: '45% 55% 60% 40%',
-              transform: 'rotate(25deg)',
-              filter: 'blur(3px)'
-            }}
-          />
-          <motion.div 
-            className="absolute bottom-[20%] left-[35%] w-48 h-36"
-            style={{ 
-              opacity: hasReachedEnd ? 1 : splatter3Opacity,
-              background: 'radial-gradient(ellipse at center, rgba(220, 20, 60, 0.6) 0%, rgba(139, 0, 0, 0.25) 45%, transparent 70%)',
-              borderRadius: '50% 50% 45% 55%',
-              transform: 'rotate(-8deg)',
-              filter: 'blur(2px)'
+              background: 'linear-gradient(to bottom, rgba(90, 15, 20, 0.25) 0%, transparent 100%)',
+              opacity: hasReachedEnd ? 0.28 : edgeGlowOpacity
             }}
           />
 
-          {/* Blood pool at bottom */}
+          {/* Bottom edge - pooling warmth */}
           <motion.div 
-            className="absolute bottom-0 left-0 h-24"
+            className="absolute bottom-0 left-0 right-0 h-40"
             style={{ 
-              width: hasReachedEnd ? "100%" : poolWidth,
-              background: 'linear-gradient(to top, rgba(139, 0, 0, 0.9) 0%, rgba(139, 0, 0, 0.5) 40%, transparent 100%)',
-              filter: 'blur(3px)'
+              background: 'linear-gradient(to top, rgba(80, 12, 18, 0.3) 0%, rgba(90, 15, 22, 0.15) 50%, transparent 100%)',
+              opacity: hasReachedEnd ? 0.35 : edgeGlowOpacity
             }}
           />
-          
-          {/* Corner vignettes */}
+
+          {/* Left corner accent */}
           <motion.div 
             className="absolute top-0 left-0 w-1/3 h-1/3"
             style={{ 
-              opacity: hasReachedEnd ? 0.6 : bloodOverlayOpacity,
-              background: 'radial-gradient(ellipse at top left, rgba(128, 0, 0, 0.6) 0%, transparent 70%)'
+              background: 'radial-gradient(ellipse at top left, rgba(100, 18, 25, 0.2) 0%, transparent 70%)',
+              opacity: hasReachedEnd ? 0.3 : vignetteOpacity
             }}
           />
+
+          {/* Right corner accent */}
           <motion.div 
-            className="absolute bottom-0 right-0 w-1/2 h-1/2"
+            className="absolute bottom-0 right-0 w-2/5 h-2/5"
             style={{ 
-              opacity: hasReachedEnd ? 0.5 : bloodOverlayOpacity,
-              background: 'radial-gradient(ellipse at bottom right, rgba(139, 0, 0, 0.5) 0%, transparent 65%)'
+              background: 'radial-gradient(ellipse at bottom right, rgba(95, 15, 22, 0.22) 0%, transparent 65%)',
+              opacity: hasReachedEnd ? 0.32 : vignetteOpacity
             }}
           />
+
+          {/* Center subtle glow */}
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ 
+              opacity: hasReachedEnd ? 0.15 : warmthOpacity
+            }}
+          >
+            <div 
+              className="w-[80%] h-[60%]"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(110, 20, 28, 0.08) 0%, transparent 60%)',
+                filter: 'blur(40px)'
+              }}
+            />
+          </motion.div>
         </div>
 
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
