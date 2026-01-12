@@ -49,16 +49,21 @@ const HorizontalGallery = () => {
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
-          {/* Panoramic blood background - spans all panels */}
+          {/* Panoramic blood background - spans all panels, stretched to fit */}
           <img
             src={horizontalSpill}
             alt=""
-            className="absolute top-0 left-0 h-full object-cover opacity-30 pointer-events-none"
-            style={{ width: '300vw' }}
+            className="absolute inset-0 pointer-events-none z-0"
+            style={{ 
+              width: '300vw', 
+              height: '100%',
+              objectFit: 'fill',
+              opacity: 0.35
+            }}
           />
 
           {/* Video Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-6 relative z-10">
             <div className="w-full max-w-4xl aspect-video bg-ivory rounded-lg overflow-hidden relative group cursor-pointer shadow-lg">
               <div className="absolute inset-0 flex items-center justify-center bg-charcoal/5">
                 <motion.div
@@ -73,8 +78,8 @@ const HorizontalGallery = () => {
           </div>
 
           {/* Essay Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
-            <div className="max-w-3xl w-full">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16 relative z-10">
+            <div className="max-w-3xl w-full bg-ivory/90 backdrop-blur-sm rounded-xl p-8 md:p-12 shadow-lg">
               <h3
                 style={{ fontSize: "clamp(1.25rem, 2.5vw, 2rem)" }}
                 className="font-serif text-charcoal mb-6"
@@ -121,7 +126,7 @@ const HorizontalGallery = () => {
           </div>
 
           {/* Poster + QR Panel */}
-          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16">
+          <div className="w-screen h-screen flex-shrink-0 flex items-center justify-center px-8 md:px-16 relative z-10">
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 max-w-5xl w-full">
 
               <motion.div
