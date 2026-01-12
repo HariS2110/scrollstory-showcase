@@ -37,6 +37,9 @@ const HorizontalGallery = () => {
   }, [essayOpen]);
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
+  
+  // Blood spill opacity increases as you scroll through the section
+  const spillOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.2, 0.4, 0.5]);
 
   // Calculate container height based on content panels (3 panels = 3x viewport)
   const panelCount = 3;
@@ -49,8 +52,8 @@ const HorizontalGallery = () => {
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <motion.div ref={scrollRef} style={{ x }} className="flex gap-0 relative">
-          {/* Panoramic blood background - spans all panels, stretched to fit */}
-          <img
+          {/* Panoramic blood background - fades in as you scroll */}
+          <motion.img
             src={horizontalSpill}
             alt=""
             className="absolute inset-0 pointer-events-none z-0"
@@ -58,7 +61,7 @@ const HorizontalGallery = () => {
               width: '300vw', 
               height: '100%',
               objectFit: 'fill',
-              opacity: 0.35
+              opacity: spillOpacity
             }}
           />
 
